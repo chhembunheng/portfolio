@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHHEM BUNHENG | Full-Stack Developer</title>
+
+  <!-- SEO / Social -->
+  <meta name="description" content="Full-stack developer building scalable edu & HR platforms with modern stacks." />
+  <meta property="og:title" content="CHHEM BUNHENG | Full-Stack Developer" />
+  <meta property="og:description"
+    content="Full-stack developer building scalable edu & HR platforms with modern stacks." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="" />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' class='h-5 w-5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 6L3.5 12L8 18'%3E%3C/path%3E%3Cpath d='M16 6L20.5 12L16 18'%3E%3C/path%3E%3Cpath d='M10 7L14 17'%3E%3C/path%3E%3C/svg%3E">
+  <link rel="alternate icon" href="/favicon.ico">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (Play CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { display: ['Space Grotesk', 'ui-sans-serif', 'system-ui'] },
+          boxShadow: { glow: '0 0 0 3px rgb(14 165 233 / 0.15), 0 10px 25px -10px rgb(14 165 233 / 0.35)' },
+          backgroundImage: {
+            'grid': 'linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    .shimmer {
+      background: linear-gradient(110deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .35), rgba(255, 255, 255, .05));
+      background-size: 200% 100%;
+      animation: shimmer 2.2s linear infinite
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: -200% 0
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .shimmer,
+      .float,
+      .spin-slow {
+        animation: none !important
+      }
+    }
+
+    .float {
+      animation: float 8s ease-in-out infinite
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-10px)
+      }
+    }
+
+    .spin-slow {
+      animation: spin 24s linear infinite
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: .75rem;
+      line-height: 1;
+      padding: .5rem .75rem;
+      border-radius: 9999px;
+      border: 1px solid rgb(15 23 42 / .1);
+      background: color-mix(in oklab, white 70%, transparent)
+    }
+
+    
+
+    .dark .badge {
+      border-color: rgb(255 255 255 / .1);
+      background: color-mix(in oklab, white 7%, transparent)
+    }
+  </style>
+</head>
+
+<body
+  class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-display selection:bg-sky-200/60 dark:selection:bg-sky-400/30">
+  <!-- Background candy -->
+  <div aria-hidden="true" class="fixed inset-0 -z-10 overflow-hidden">
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-sky-50 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950">
+    </div>
+    <div class="absolute -top-24 -right-24 w-[32rem] h-[32rem] rounded-full blur-3xl opacity-40 spin-slow"
+      style="background: radial-gradient(closest-side, #22d3ee, transparent 70%);"></div>
+    <div class="absolute -bottom-24 -left-24 w-[30rem] h-[30rem] rounded-full blur-3xl opacity-40 float"
+      style="background: radial-gradient(closest-side, #a78bfa, transparent 70%);"></div>
+    <div
+      class="absolute inset-0 pointer-events-none [mask-image:radial-gradient(transparent,black)] bg-grid bg-[size:28px_28px]">
+    </div>
+  </div>
+
+  <!-- Skip to content -->
+  <a href="#main"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-black text-white px-3 py-2 rounded">Skip
+    to content</a>
+
+  <!-- Navbar -->
+  <header
+    class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/50 border-b border-slate-900/5 dark:border-white/5">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="#" class="inline-flex items-center gap-2">
+          <span class="inline-flex items-center justify-center h-10 w-10 rounded-xl shadow-glow bg-gradient-to-br from-sky-400 to-fuchsia-500 text-white" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 6L3.5 12L8 18"></path>
+              <path d="M16 6L20.5 12L16 18"></path>
+              <path d="M10 7L14 17"></path>
+            </svg>
+          </span>
+          <span class="ml-3">
+            <span class="block font-bold tracking-tight text-lg">CHHEM BUNHENG</span>
+            <span class="block text-xs text-slate-500 dark:text-slate-400 -mt-0.5">Full‑Stack Developer</span>
+          </span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+          <a class="hover:opacity-80" href="#projects">Projects</a>
+          <a class="hover:opacity-80" href="#skills">Skills</a>
+          <a class="hover:opacity-80" href="#experience">Experience</a>
+          <a class="hover:opacity-80" href="#contact">Contact</a>
+          <a class="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400"
+            href="https://drive.google.com/file/d/1FXrwYorL587Gwb0UEvYr-Lxr02yqaSGc/view?usp=drive_link" target="_blank" rel="noopener">CV</a>
+            <button id="theme-toggle"
+            class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-900/10 dark:border-white/10 bg-white/0 hover:bg-slate-900/5 dark:hover:bg-white/5 p-0 overflow-hidden"
+            aria-label="Toggle theme" title="Toggle theme">
+            <span class="sr-only">Toggle theme</span>
+
+            <!-- Sun (visible in light mode) -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-yellow-400 transition-all duration-300 transform opacity-100 scale-100 dark:opacity-0 dark:scale-90">
+              <circle cx="12" cy="12" r="4" stroke-width="1.6"></circle>
+              <g stroke-width="1.4">
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path>
+              <path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="M4.93 19.07l1.41-1.41"></path>
+              <path d="M17.66 6.34l1.41-1.41"></path>
+              </g>
+            </svg>
+
+            <!-- Moon (visible in dark mode) -->
+            <svg viewBox="0 0 24 24" fill="currentColor"
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-slate-200 transition-all duration-300 transform opacity-0 scale-90 dark:opacity-100 dark:scale-100">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </button>
+        </nav>
+
+        <!-- Theme toggle button -->
+        <button id="theme-toggle-m"
+          class="md:hidden relative inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-900/10 dark:border-white/10 bg-white/0 hover:bg-slate-900/5 dark:hover:bg-white/5 p-0 overflow-hidden"
+          aria-label="Toggle theme" title="Toggle theme">
+          <span class="sr-only">Toggle theme</span>
+
+          <!-- Sun (visible in light mode) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-yellow-400 transition-all duration-300 transform opacity-100 scale-100 dark:opacity-0 dark:scale-90">
+            <circle cx="12" cy="12" r="4" stroke-width="1.6"></circle>
+            <g stroke-width="1.4">
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path>
+              <path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="M4.93 19.07l1.41-1.41"></path>
+              <path d="M17.66 6.34l1.41-1.41"></path>
+            </g>
+          </svg>
+
+          <!-- Moon (visible in dark mode) -->
+          <svg viewBox="0 0 24 24" fill="currentColor"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-slate-200 transition-all duration-300 transform opacity-0 scale-90 dark:opacity-100 dark:scale-100">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+        </button>
+
+
+        <button id="menu-btn"
+          class="md:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-slate-900/5 dark:hover:bg-white/5"
+          aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden hidden border-t border-slate-900/5 dark:border-white/5">
+      <div class="space-y-1 px-4 py-3">
+        <a class="block px-3 py-2 rounded hover:bg-slate-900/5 dark:hover:bg-white/5" href="#projects">Projects</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-900/5 dark:hover:bg-white/5" href="#skills">Skills</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-900/5 dark:hover:bg-white/5" href="#experience">Experience</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-900/5 dark:hover:bg-white/5" href="#contact">Contact</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-900/5 dark:hover:bg-white/5 text-sky-600 dark:text-sky-400"
+          href="https://drive.google.com/file/d/1FXrwYorL587Gwb0UEvYr-Lxr02yqaSGc/view?usp=drive_link" target="_blank" rel="noopener">CV</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-10">
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-7">
+          <span
+            class="inline-flex items-center gap-2 rounded-full shimmer px-3 py-1 text-xs uppercase tracking-wider ring-1 ring-white/40 dark:ring-white/20 mb-4">
+            <span class="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Open to opportunities
+          </span>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1]">
+            Hey, I’m <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-fuchsia-500">CHHEM
+              BUNHENG</span> 👋 <!-- from CV :contentReference[oaicite:8]{index=8} -->
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-prose">
+            Full-stack dev with <strong>3+ years</strong> building school/university platforms and HR tools (enrollment,
+            attendance, grades, payroll, finance). I work across Laravel, CodeIgniter, Django, Next.js with
+            MySQL/PostgreSQL, and I care about clean UX + scalable backends.
+            <!-- experience & profile from CV :contentReference[oaicite:9]{index=9} -->
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#projects"
+              class="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 shadow-lg shadow-slate-900/10 dark:shadow-white/10">
+              View projects
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13 5l7 7-7 7v-4H4v-6h9V5z" />
+              </svg>
+            </a>
+            <a href="#contact"
+              class="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 border border-slate-900/10 dark:border-white/10 hover:bg-slate-900/5 dark:hover:bg-white/5">
+              Let’s talk
+            </a>
+          </div>
+          <div class="mt-6 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <div class="flex -space-x-2">
+              <span class="h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900 flex items-center justify-center bg-sky-200 text-sky-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"></svg>
+                  <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-4 0-6 2-6 4v1h12v-1c0-2-2-4-6-4z"/>
+                </svg>
+              </span>
+              <span class="h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900 flex items-center justify-center bg-fuchsia-200 text-fuchsia-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+                  <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-4 0-6 2-6 4v1h12v-1c0-2-2-4-6-4z"/>
+                </svg>
+              </span>
+              <span class="h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900 flex items-center justify-center bg-emerald-200 text-emerald-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+                  <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-4 0-6 2-6 4v1h12v-1c0-2-2-4-6-4z"/>
+                </svg>
+              </span>
+            </div>
+            <span>EduTech & HR domains</span>
+          </div>
+        </div>
+
+        <!-- Hero card -->
+        <div class="lg:col-span-5">
+          <div
+            class="rounded-3xl border border-slate-900/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur p-5 sm:p-6 shadow-xl">
+            <div
+              class="aspect-[16/10] rounded-2xl bg-gradient-to-br from-sky-200 via-fuchsia-200 to-amber-200 dark:from-sky-500/20 dark:via-fuchsia-500/20 dark:to-amber-400/20 grid place-items-center text-center">
+              <div>
+                <p class="text-5xl">🛠️</p>
+                <p class="mt-2 font-semibold">Building school & HR systems</p>
+                <p class="text-sm text-slate-600 dark:text-slate-400">REST • MVC • Auth • Responsive UI</p>
+              </div>
+            </div>
+            <dl class="mt-5 grid grid-cols-3 gap-3 text-center">
+              <div class="rounded-xl border border-slate-900/10 dark:border-white/10 p-3">
+                <dt class="text-xs text-slate-500">Years</dt>
+                <dd class="text-lg font-bold">3+</dd> <!-- from CV :contentReference[oaicite:11]{index=11} -->
+              </div>
+              <div class="rounded-xl border border-slate-900/10 dark:border-white/10 p-3">
+                <dt class="text-xs text-slate-500">Focus</dt>
+                <dd class="text-lg font-bold">Edu & HR</dd> <!-- from CV :contentReference[oaicite:12]{index=12} -->
+              </div>
+              <div class="rounded-xl border border-slate-900/10 dark:border-white/10 p-3">
+                <dt class="text-xs text-slate-500">DBs</dt>
+                <dd class="text-lg font-bold">MySQL • PG</dd> <!-- from CV :contentReference[oaicite:13]{index=13} -->
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project highlights (derived from CV domains) -->
+    <section id="projects" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex items-end justify-between gap-6 mb-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Featured projects</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- University Management System -->
+        <article
+          class="group rounded-2xl border border-slate-900/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur hover:shadow-xl transition-shadow overflow-hidden">
+          <div class="aspect-[16/10] bg-slate-200/60 dark:bg-slate-800/40 grid place-items-center"><span
+              class="text-4xl">🎓</span></div>
+          <div class="p-5">
+            <h3 class="font-bold">University Management System</h3>
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Enrollment, attendance, grades, finance
+              dashboards for BELTEI Intl University.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="badge">Laravel</span><span class="badge">MySQL</span><span class="badge">jQuery/AJAX</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- School Portal -->
+        <article
+          class="group rounded-2xl border border-slate-900/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur hover:shadow-xl transition-shadow overflow-hidden">
+          <div class="aspect-[16/10] bg-slate-200/60 dark:bg-slate-800/40 grid place-items-center"><span
+              class="text-4xl">🏫</span></div>
+          <div class="p-5">
+            <h3 class="font-bold">School Portal</h3>
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Multi-school modules for BELTEI Intl School &
+              Zion International School.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="badge">CodeIgniter</span><span class="badge">PostgreSQL</span><span class="badge">Responsive
+                UI</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- HR Suite -->
+        <article
+          class="group rounded-2xl border border-slate-900/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur hover:shadow-xl transition-shadow overflow-hidden">
+          <div class="aspect-[16/10] bg-slate-200/60 dark:bg-slate-800/40 grid place-items-center"><span
+              class="text-4xl">🧾</span></div>
+          <div class="p-5">
+            <h3 class="font-bold">HR Suite</h3>
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Employee management, leave tracking, and payroll
+              with role-based auth.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="badge">Django</span><span class="badge">REST API</span><span class="badge">Auth</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-6">Tech I vibe with</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl border border-slate-900/10 dark:border-white/10 p-6 bg-white/60 dark:bg-white/5">
+          <h3 class="font-semibold mb-3">Frameworks</h3>
+          <ul class="flex flex-wrap gap-2">
+            <li class="badge">Laravel</li>
+            <li class="badge">CodeIgniter</li>
+            <li class="badge">Django</li>
+            <li class="badge">Next.js</li>
+            <li class="badge">Express.js</li>
+            <li class="badge">Node.js</li>
+            <li class="badge">Bootstrap</li>
+            <li class="badge">React</li>
+            <li class="badge">Vue.js</li>
+          </ul>
+          <h3 class="font-semibold mt-6 mb-3">Languages</h3>
+          <ul class="flex flex-wrap gap-2">
+            <li class="badge">PHP</li>
+            <li class="badge">JavaScript</li>
+            <li class="badge">Python</li>
+            <li class="badge">HTML</li>
+            <li class="badge">CSS</li>
+            <li class="badge">SQL</li>
+            <li class="badge">Bash</li>
+          </ul>
+          <h3 class="font-semibold mt-6 mb-3">Databases</h3>
+          <ul class="flex flex-wrap gap-2">
+            <li class="badge">MySQL</li>
+            <li class="badge">PostgreSQL</li>
+            <li class="badge">MongoDB</li>
+          </ul>
+          <h3 class="font-semibold mt-6 mb-3">Tools</h3>
+          <ul class="flex flex-wrap gap-2">
+            <li class="badge">Git</li>
+            <li class="badge">GitHub</li>
+            <li class="badge">GitLab</li>
+            <li class="badge">Docker</li>
+            <li class="badge">AWS</li>
+            <li class="badge">Navicat</li>
+            <li class="badge">Postman</li>
+            <li class="badge">Figma</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-slate-900/10 dark:border-white/10 p-6 bg-white/60 dark:bg-white/5">
+          <h3 class="font-semibold mb-3">Highlights</h3>
+          <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <li>⚡ REST API integration & MVC architecture</li>
+            <li>🔒 Auth systems & role-based access</li>
+            <li>📱 Responsive UI design</li>
+            <li>🗄️ Database design & optimization</li>
+            <li>🤝 Cross-team collaboration</li>
+            <li>🧪 Testing & debugging</li>
+            <li>🚀 Deployment & maintenance</li>
+          </ul>
+          <div class="mt-6 rounded-xl border border-slate-900/10 dark:border-white/10 p-4">
+            <p class="text-xs text-slate-500 mb-2">Languages</p>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="badge">Khmer (Native)</span>
+              <span class="badge">English (Exe)</span> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-6">Experience</h2>
+      <ol class="relative border-s border-slate-900/10 dark:border-white/10 pl-6">
+        <li class="mb-8">
+          <div class="absolute -left-2 top-1.5 h-4 w-4 rounded-full bg-sky-500 ring-4 ring-white dark:ring-slate-950">
+          </div>
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h3 class="font-semibold">Software Developer — WINTECH Software Development Co., Ltd</h3>
+            <span class="text-xs text-slate-500">2023 — Present</span>
+          </div>
+          <ul class="mt-2 list-disc pl-5 text-sm text-slate-700 dark:text-slate-300">
+            <li>Built full-stack web apps for BELTEI International University/School & Zion International School.</li>
+            <li>Delivered school/university modules: enrollment, attendance, grades, HR, finance.</li>
+            <li>Laravel & CodeIgniter on the backend; jQuery/AJAX for dynamic UI.</li>
+            <li>Designed & optimized relational schemas in MySQL and PostgreSQL.</li>
+            <li>Collaborated with cross-functional teams to meet academic/admin needs.</li>
+          </ul>
+        </li>
+      </ol>
+      <ol class="relative border-s border-slate-900/10 dark:border-white/10 pl-6">
+        <li class="mb-8">
+          <div class="absolute -left-2 top-1.5 h-4 w-4 rounded-full bg-sky-500 ring-4 ring-white dark:ring-slate-950">
+          </div>
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h3 class="font-semibold">Intern Developer — 855 Solutions</h3>
+            <span class="text-xs text-slate-500">2023 — 2023( 3 months )</span>
+          </div>
+          <ul class="mt-2 list-disc pl-5 text-sm text-slate-700 dark:text-slate-300">
+            <li>Assisted in developing web applications using Laravel framework.</li>
+            <li>Contributed to backend API development and database management.</li>
+            <li>Participated in code reviews and team meetings to enhance project quality.</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Education -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-6">Education</h2>
+      <div class="rounded-2xl border border-slate-900/10 dark:border-white/10 p-6 bg-white/60 dark:bg-white/5">
+        <p class="font-semibold">BELTEI International University — Bachelor of Software Engineering (Year 4)</p>
+        <p class="text-sm text-slate-600 dark:text-slate-300">2023 — Now</p>
+      </div>
+    </section>
+
+    <!-- Hobbies -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-6">A bit about me</h2>
+      <div class="rounded-2xl border border-slate-900/10 dark:border-white/10 p-6 bg-white/60 dark:bg-white/5">
+        <p class="text-sm text-slate-700 dark:text-slate-300">When I’m not coding, you’ll find me exploring new
+          technologies, playing football, or diving into a good book. I’m passionate about continuous learning and enjoy
+          collaborating with others to create impactful solutions.</p>
+      </div>
+    </section>
+
+    <!-- Playlist -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-6">Currently vibing to</h2>
+      <div class="rounded-2xl border border-slate-900/10 dark:border-white/10 p-6 bg-white/60 dark:bg-white/5">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/2AdzvYhoaq2bHCk0u9RfnD?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div class="rounded-3xl border border-slate-900/10 dark:border-white/10 bg-white/60 dark:bg-white/5 p-6 md:p-8">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Let’s build something</h2>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Open for freelance, collabs, and full-time roles
+              in Phnom Penh or remote.</p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a class="inline-flex items-center gap-2 rounded-xl px-3 py-2 border border-slate-900/10 dark:border-white/10 hover:bg-slate-900/5 dark:hover:bg-white/5"
+                href="mailto:chhembunheng77@gmail.com">Email</a>
+              <!-- from CV :contentReference[oaicite:22]{index=22} -->
+              <a class="inline-flex items-center gap-2 rounded-xl px-3 py-2 border border-slate-900/10 dark:border-white/10 hover:bg-slate-900/5 dark:hover:bg-white/5"
+                href="tel:+85516467236">Call</a> <!-- phone from CV :contentReference[oaicite:23]{index=23} -->
+              <!-- Add your GitHub/LinkedIn when ready -->
+            </div>
+          </div>
+          <form class="space-y-4" action="#" method="POST"
+            onsubmit="event.preventDefault(); alert('Thanks! I will get back to you.');">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <label class="block text-sm">
+                <span class="mb-1 block">Name</span>
+                <input required name="name"
+                  class="w-full rounded-xl border border-slate-900/10 dark:border-white/10 bg-white/70 dark:bg-white/10 px-3 py-2 outline-none focus:ring-2 focus:ring-sky-400"
+                  placeholder="Your name" />
+              </label>
+              <label class="block text-sm">
+                <span class="mb-1 block">Email</span>
+                <input required type="email" name="email"
+                  class="w-full rounded-xl border border-slate-900/10 dark:border-white/10 bg-white/70 dark:bg-white/10 px-3 py-2 outline-none focus:ring-2 focus:ring-sky-400"
+                  placeholder="you@example.com" />
+              </label>
+            </div>
+            <label class="block text-sm">
+              <span class="mb-1 block">Message</span>
+              <textarea required name="message" rows="4"
+                class="w-full rounded-xl border border-slate-900/10 dark:border-white/10 bg-white/70 dark:bg-white/10 px-3 py-2 outline-none focus:ring-2 focus:ring-sky-400"
+                placeholder="What are we building?"></textarea>
+            </label>
+            <button
+              class="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 bg-gradient-to-r from-sky-500 to-fuchsia-500 text-white hover:opacity-95 shadow-glow">Send
+              it 🚀</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 text-sm text-slate-500">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© <span id="year"></span> CHHEM BUNHENG. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a href="https://www.linkedin.com/in/chhem-bunheng" target="_blank" rel="noopener" aria-label="LinkedIn"
+          class="hover:opacity-80 text-slate-500 dark:text-slate-400">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM7.5 18H5.5V9h2V18zM6.5 7.75c-.69 0-1.25-.56-1.25-1.25S5.81 5.25 6.5 5.25 7.75 5.81 7.75 6.5 7.19 7.75 6.5 7.75zM20.5 18h-2V13c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.43-2.12 2.91V18h-2V9h1.92v1.25h.03c.27-.5.94-1.03 1.94-1.03 2.08 0 2.46 1.37 2.46 3.15V18z"/>
+          </svg>
+          <span class="sr-only">LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/chhembunheng" target="_blank" rel="noopener" aria-label="GitHub"
+          class="hover:opacity-80 text-slate-500 dark:text-slate-400">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.111.82-.26.82-.577 0-.286-.01-1.04-.015-2.04-3.338.726-4.042-1.415-4.042-1.415-.546-1.387-1.333-1.757-1.333-1.757-1.089-.744.084-.729.084-.729 1.205.084 1.84 1.235 1.84 1.235 1.07 1.835 2.809 1.305 3.495.998.108-.775.418-1.305.762-1.605-2.665-.305-5.467-1.332-5.467-5.93 0-1.31.469-2.381 1.235-3.221-.123-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.98-.399 3-.405 1.02.006 2.043.139 3 .405 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.241 2.874.118 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.807 5.62-5.479 5.92.43.372.823 1.102.823 2.222 0 1.606-.014 2.896-.014 3.286 0 .32.216.694.825.576C20.565 22.092 24 17.592 24 12.297 24 5.67 18.63.297 12 .297z"/>
+          </svg>
+          <span class="sr-only">GitHub</span>
+        </a>
+
+        <a href="https://x.com/hengslytherinn?s=21" target="_blank" rel="noopener" aria-label="X"
+          class="hover:opacity-80 text-slate-500 dark:text-slate-400">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.897-.959-2.178-1.559-3.594-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.083-.205-7.702-2.158-10.126-5.134-.422.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.179 1.394 4.768 2.209 7.557 2.209 9.054 0 14-7.496 14-13.986 0-.21 0-.423-.015-.637.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/>
+          </svg>
+          <span class="sr-only">X</span>
+        </a>
+
+        <a href="https://t.me/henggdev_04" target="_blank" rel="noopener" aria-label="Telegram"
+          class="hover:opacity-80 text-slate-500 dark:text-slate-400">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.573 8.31l-1.664 7.85c-.126.563-.456.7-.923.437l-2.554-1.886-1.232 1.184c-.136.136-.25.25-.512.25l.184-2.63 4.787-4.33c.208-.184-.045-.456-.323-.272l-5.918 3.722-2.54-.793c-.552-.172-.563-.552.116-.816l9.934-3.61c.46-.172.863.11.713.786z"/>
+          </svg>
+          <span class="sr-only">Telegram</span>
+        </a>
+      </div></svg>
+      <div class="flex items-center gap-3">
+        <a href="#top" class="hover:opacity-80">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode persistence
+    const root = document.documentElement;
+    const applyTheme = (v) => v ? root.classList.add('dark') : root.classList.remove('dark');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const stored = localStorage.getItem('theme');
+    applyTheme(stored ? stored === 'dark' : prefersDark);
+    function toggleTheme() { const isDark = root.classList.toggle('dark'); localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    document.getElementById('theme-toggle-m').addEventListener('click', toggleTheme);
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden');
+      menuBtn.setAttribute('aria-expanded', String(!open));
+    });
+
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Keyboard focus outline only when tabbing
+    function handleFirstTab(e) { if (e.key === 'Tab') { document.body.classList.add('outline-dashed', 'outline-2', 'outline-offset-2'); window.removeEventListener('keydown', handleFirstTab); } }
+    window.addEventListener('keydown', handleFirstTab);
+  </script>
+</body>
+
+</html>
