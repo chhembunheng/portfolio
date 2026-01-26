@@ -8,35 +8,9 @@
   <link rel="canonical" href="https://henggdeveloper.me/" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#020617" />
-  <meta name="google-site-verification" content="owv0oCQfLNAsKFRGsf2UmW5IAthI2BHGJ9bHzv8fPo8" />
   
   <!-- Icons -->
   <link rel="icon" type="icon" href="/terminal.ico" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="CHHEM BUNHENG" />
-  <meta property="og:title" content="CHHEM BUNHENG — Full-Stack Developer" />
-  <meta property="og:description"
-    content="Full-stack developer building scalable edu & HR platforms with modern stacks." />
-  <meta property="og:url" content="https://henggdeveloper.me/" />
-  <meta property="og:image" content="https://henggdeveloper.me/og_image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:locale" content="en_US" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CHHEM BUNHENG — Full-Stack Developer" />
-  <meta name="twitter:description"
-    content="Full-stack developer building scalable edu & HR platforms with modern stacks." />
-  <meta name="twitter:image" content="https://henggdeveloper.me/og_image.png" />
-  <meta name="twitter:site" content="@hengslytherinn" />
-  <meta name="twitter:creator" content="@hengslytherinn" />
-
-  <!-- Hreflang (expand if you add Khmer pages) -->
-  <link rel="alternate" href="https://henggdeveloper.me/" hreflang="en" />
-  <link rel="alternate" href="https://henggdeveloper.me/" hreflang="x-default" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -119,9 +93,6 @@
 </head>
 
 <body class="selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
-
-  <!-- Interactive Background Layer (Canvas) -->
-  <canvas id="bg-canvas" class="fixed inset-0 z-[-5] pointer-events-none opacity-40"></canvas>
 
   <!-- Background Ambience -->
   <div class="fixed inset-0 -z-10 grid-bg pointer-events-none"></div>
@@ -530,114 +501,6 @@
     menuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
     });
-
-    /**
-     * Particle Network Animation
-     * Lightweight replacement for Three.js
-     * Optimization: Checks device width for particle count, uses requestAnimationFrame
-     */
-     const canvas = document.getElementById('bg-canvas');
-     const ctx = canvas.getContext('2d');
-     let width, height;
-     let particles = [];
- 
-     // Configuration
-     const particleCount = window.innerWidth < 768 ? 35 : 70; // Low count for performance
-     const connectionDistance = 140;
-     const mouseDistance = 200;
- 
-     let mouse = { x: null, y: null };
- 
-     window.addEventListener('mousemove', (e) => {
-         mouse.x = e.x;
-         mouse.y = e.y;
-     });
- 
-     window.addEventListener('resize', init);
- 
-     class Particle {
-         constructor() {
-             this.x = Math.random() * width;
-             this.y = Math.random() * height;
-             this.vx = (Math.random() - 0.5) * 0.3; // Slower speed
-             this.vy = (Math.random() - 0.5) * 0.3;
-             this.size = Math.random() * 2 + 0.5;
-             this.color = Math.random() > 0.5 ? '#22d3ee' : '#d946ef'; // Cyan or Fuchsia
-         }
- 
-         update() {
-             this.x += this.vx;
-             this.y += this.vy;
- 
-             // Bounce off edges
-             if (this.x < 0 || this.x > width) this.vx *= -1;
-             if (this.y < 0 || this.y > height) this.vy *= -1;
- 
-             // Mouse interaction
-             if (mouse.x != null) {
-                 let dx = mouse.x - this.x;
-                 let dy = mouse.y - this.y;
-                 let distance = Math.sqrt(dx * dx + dy * dy);
-                 if (distance < mouseDistance) {
-                     const force = (mouseDistance - distance) / mouseDistance;
-                     const directionX = (dx / distance) * force * this.size;
-                     const directionY = (dy / distance) * force * this.size;
-                     
-                     this.x -= directionX * 0.6; 
-                     this.y -= directionY * 0.6;
-                 }
-             }
-         }
- 
-         draw() {
-             ctx.beginPath();
-             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-             ctx.fillStyle = this.color;
-             ctx.fill();
-         }
-     }
- 
-     function init() {
-         width = canvas.width = window.innerWidth;
-         height = canvas.height = window.innerHeight;
-         particles = [];
-         for (let i = 0; i < particleCount; i++) {
-             particles.push(new Particle());
-         }
-     }
- 
-     function animate() {
-         ctx.clearRect(0, 0, width, height);
-         
-         for (let i = 0; i < particles.length; i++) {
-             particles[i].update();
-             particles[i].draw();
- 
-             // Draw connections
-             for (let j = i; j < particles.length; j++) {
-                 let dx = particles[i].x - particles[j].x;
-                 let dy = particles[i].y - particles[j].y;
-                 let distance = Math.sqrt(dx*dx + dy*dy);
- 
-                 if (distance < connectionDistance) {
-                     ctx.beginPath();
-                     // Line opacity based on distance
-                     ctx.strokeStyle = `rgba(148, 163, 184, ${0.15 * (1 - distance/connectionDistance)})`; // Slate-400
-                     ctx.lineWidth = 1;
-                     ctx.moveTo(particles[i].x, particles[i].y);
-                     ctx.lineTo(particles[j].x, particles[j].y);
-                     ctx.stroke();
-                 }
-             }
-         }
-         requestAnimationFrame(animate);
-     }
- 
-     // Delay init to ensure DOM is ready
-     setTimeout(() => {
-        init();
-        animate();
-     }, 100);
   </script>
 </body>
 </html>

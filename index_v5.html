@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHHEM BUNHENG - VSCode Portfolio</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Theme Definitions */
+        :root {
+            /* Default: VS Code Dark */
+            --bg-body: #1e1e1e;
+            --bg-sidebar: #252526;
+            --bg-activity: #333333;
+            --bg-tab: #1e1e1e;
+            --bg-tab-inactive: #2d2d2d;
+            --fg-primary: #d4d4d4;
+            --fg-secondary: #858585;
+            --border-color: #3e3e42;
+            --accent: #007acc;
+            --line-tree: #585858;
+            --keyword: #569cd6;
+            --string: #ce9178;
+            --func: #dcdcaa;
+            --class: #4ec9b0;
+            --comment: #6a9955;
+        }
+
+        .theme-dracula {
+            --bg-body: #282a36;
+            --bg-sidebar: #21222c;
+            --bg-activity: #191a21;
+            --bg-tab: #282a36;
+            --bg-tab-inactive: #21222c;
+            --fg-primary: #f8f8f2;
+            --fg-secondary: #6272a4;
+            --border-color: #44475a;
+            --accent: #bd93f9;
+            --line-tree: #44475a;
+            --keyword: #ff79c6;
+            --string: #f1fa8c;
+            --func: #50fa7b;
+            --class: #8be9fd;
+            --comment: #6272a4;
+        }
+
+        .theme-light {
+            --bg-body: #ffffff;
+            --bg-sidebar: #f3f3f3;
+            --bg-activity: #2c2c2c;
+            --bg-tab: #ffffff;
+            --bg-tab-inactive: #ececec;
+            --fg-primary: #24292e;
+            --fg-secondary: #6a737d;
+            --border-color: #e1e4e8;
+            --accent: #0366d6;
+            --line-tree: #e1e4e8;
+            --keyword: #d73a49;
+            --string: #032f62;
+            --func: #6f42c1;
+            --class: #005cc5;
+            --comment: #6a737d;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--fg-primary);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-activity);
+            border: 2px solid var(--bg-body);
+            border-radius: 5px;
+        }
+
+        .tab-active {
+            background-color: var(--bg-tab);
+            border-top: 2px solid var(--accent);
+            color: var(--fg-primary);
+        }
+        .tab-inactive {
+            background-color: var(--bg-tab-inactive);
+            color: var(--fg-secondary);
+        }
+        
+        /* Syntax Highlighting Utilities */
+        .text-keyword { color: var(--keyword); }
+        .text-string { color: var(--string); }
+        .text-func { color: var(--func); }
+        .text-class { color: var(--class); }
+        .text-comment { color: var(--comment); }
+        .text-accent { color: var(--accent); }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col text-sm">
+    
+    <!-- Background Canvas (Minimialist ThreeJS alternative) -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none opacity-20 z-0"></canvas>
+
+    <!-- Title Bar -->
+    <header class="h-8 flex items-center justify-between px-3 select-none z-10" style="background-color: var(--bg-activity); color: #ccc;">
+        <div class="flex items-center gap-4">
+            <img src="/terminal.ico" class="w-4 h-4" alt="Icon" onerror="this.style.display='none'"> 
+            <span class="text-xs hidden sm:inline">File</span>
+            <span class="text-xs hidden sm:inline">Edit</span>
+            <span class="text-xs hidden sm:inline">Selection</span>
+            <span class="text-xs hidden sm:inline">View</span>
+            <span class="text-xs hidden sm:inline">Go</span>
+            <span class="text-xs hidden sm:inline">Run</span>
+            <span class="text-xs hidden sm:inline">Terminal</span>
+            <span class="text-xs hidden sm:inline">Help</span>
+        </div>
+        <div class="text-xs opacity-60">CHHEM BUNHENG - Portfolio - Visual Studio Code</div>
+        <div class="flex gap-2">
+            <div class="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer hover:bg-yellow-500 transition-colors" onclick="alert('Minimize?')"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500 cursor-pointer hover:bg-green-600 transition-colors" onclick="toggleFullScreen()"></div>
+            <div class="w-3 h-3 rounded-full bg-red-500 cursor-pointer hover:bg-red-600 transition-colors" onclick="alert('Cannot close this window!')"></div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden z-10 relative">
+        <!-- Activity Bar -->
+        <aside class="w-12 flex flex-col items-center py-4 gap-6 z-10" style="background-color: var(--bg-activity);">
+            <i class="far fa-copy text-2xl text-white cursor-pointer opacity-100 border-l-2 border-white pl-3 -ml-3 transition-all hover:text-white hover:scale-110" title="Explorer"></i>
+            <i class="fas fa-search text-2xl text-gray-500 hover:text-white cursor-pointer transition-colors hover:scale-110" title="Search"></i>
+            <a href="https://github.com/chhembunheng" target="_blank" class="text-gray-500 hover:text-white transition-colors hover:scale-110"><i class="fas fa-code-branch text-2xl" title="Source Control"></i></a>
+            <i class="fas fa-bug text-2xl text-gray-500 hover:text-white cursor-pointer transition-colors hover:scale-110" title="Run & Debug"></i>
+            <i class="fas fa-cubes text-2xl text-gray-500 hover:text-white cursor-pointer transition-colors hover:scale-110" title="Extensions"></i>
+            
+            <div class="mt-auto flex flex-col gap-6 mb-2">
+                <i class="far fa-user-circle text-2xl text-gray-500 hover:text-white cursor-pointer hover:scale-110" title="Accounts"></i>
+                <i class="fas fa-cog text-2xl text-gray-500 hover:text-white cursor-pointer hover:spin-slow hover:scale-110" id="settings-btn" title="Manage / Themes"></i>
+            </div>
+        </aside>
+
+        <!-- Sidebar (Explorer) -->
+        <aside class="w-0 md:w-64 flex flex-col transition-all duration-300 ease-in-out md:opacity-100 opacity-0 overflow-hidden" style="background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color);">
+            <div class="h-8 px-4 flex items-center text-xs font-bold tracking-wide text-gray-400">EXPLORER</div>
+            
+            <!-- Accordion -->
+            <div class="flex-1 overflow-y-auto font-code text-[13px]">
+                <!-- Portfolio Project -->
+                <div>
+                    <div class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 transition-colors" onclick="toggleTree('tree-portfolio')">
+                        <i class="fas fa-chevron-down text-[10px] w-4 text-center mr-1 transition-transform" id="icon-tree-portfolio"></i>
+                        <span class="font-bold">PORTFOLIO</span>
+                    </div>
+                    <div id="tree-portfolio" class="ml-2 transition-all duration-300">
+                        <!-- src -->
+                        <div class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 transition-colors" onclick="toggleTree('tree-src')">
+                            <i class="fas fa-chevron-down text-[10px] w-4 text-center mr-1 transition-transform" id="icon-tree-src"></i>
+                            <i class="fas fa-folder text-yellow-500 mr-2"></i>
+                            <span>src</span>
+                        </div>
+                        <div id="tree-src" class="ml-4 border-l border-[var(--line-tree)] pl-2 transition-all duration-300">
+                            <!-- pages -->
+                            <div class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 transition-colors" onclick="toggleTree('tree-pages')">
+                                <i class="fas fa-chevron-down text-[10px] w-4 text-center mr-1 transition-transform" id="icon-tree-pages"></i>
+                                <i class="fas fa-folder text-orange-400 mr-2"></i>
+                                <span>pages</span>
+                            </div>
+                            <div id="tree-pages" class="ml-4 border-l border-[var(--line-tree)] pl-2 transition-all duration-300">
+                                <div onclick="openTab('home')" class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 text-[var(--accent)] group transition-colors">
+                                    <i class="fab fa-react mr-2 text-blue-400"></i>
+                                    <span class="group-hover:text-white transition-colors">Home.tsx</span>
+                                </div>
+                                <div onclick="openTab('about')" class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 text-[var(--fg-secondary)] group transition-colors">
+                                    <i class="fab fa-markdown mr-2 text-blue-300"></i>
+                                    <span class="group-hover:text-white transition-colors">README.md</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- data -->
+                        <div class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 transition-colors" onclick="toggleTree('tree-data')">
+                            <i class="fas fa-chevron-right text-[10px] w-4 text-center mr-1 transition-transform" id="icon-tree-data"></i>
+                            <i class="fas fa-folder text-green-500 mr-2"></i>
+                            <span>api</span>
+                        </div>
+                        <div id="tree-data" class="hidden ml-4 border-l border-[var(--line-tree)] pl-2 transition-all duration-300">
+                            <div onclick="openTab('projects')" class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 text-[var(--fg-secondary)] group transition-colors">
+                                <i class="fab fa-js mr-2 text-yellow-300"></i>
+                                <span class="group-hover:text-white transition-colors">projects.json</span>
+                            </div>
+                             <div onclick="openTab('contact')" class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 text-[var(--fg-secondary)] group transition-colors">
+                                <i class="fas fa-database mr-2 text-purple-400"></i>
+                                <span class="group-hover:text-white transition-colors">contact.sql</span>
+                            </div>
+                        </div>
+
+                        <!-- Root files -->
+                         <div onclick="openTab('skills')" class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 text-[var(--fg-secondary)] group transition-colors">
+                            <i class="fab fa-npm mr-2 text-red-500"></i>
+                            <span class="group-hover:text-white transition-colors">package.json</span>
+                        </div>
+                        <div onclick="openTab('env')" class="px-2 py-1 cursor-pointer flex items-center hover:bg-white/5 text-[var(--fg-secondary)] group transition-colors">
+                            <i class="fas fa-lock mr-2 text-yellow-500"></i>
+                            <span class="group-hover:text-white transition-colors">.env</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Editor Area -->
+        <main class="flex-1 flex flex-col bg-[var(--bg-body)] relative overflow-hidden">
+            
+            <!-- Tabs -->
+            <div class="flex overflow-x-auto h-9 bg-[var(--bg-tab-inactive)] select-none z-20">
+                <!-- Tab: Home.tsx -->
+                <div id="tab-home" onclick="openTab('home')" class="tab-active min-w-[120px] px-3 flex items-center gap-2 cursor-pointer border-r border-[var(--border-color)] transition-colors">
+                    <i class="fab fa-react text-blue-400 text-xs"></i>
+                    <span class="text-xs">Home.tsx</span>
+                    <i class="fas fa-times ml-auto text-xs opacity-0 hover:opacity-100 hover:bg-white/10 rounded p-1 transition-all"></i>
+                </div>
+                 <!-- Tab: README.md -->
+                <div id="tab-about" onclick="openTab('about')" class="tab-inactive min-w-[120px] px-3 flex items-center gap-2 cursor-pointer border-r border-[var(--border-color)] transition-colors">
+                     <i class="fab fa-markdown text-blue-300 text-xs"></i>
+                    <span class="text-xs">README.md</span>
+                </div>
+                <!-- Tab: projects.json -->
+                <div id="tab-projects" onclick="openTab('projects')" class="tab-inactive min-w-[120px] px-3 flex items-center gap-2 cursor-pointer border-r border-[var(--border-color)] transition-colors">
+                    <i class="fab fa-js text-yellow-300 text-xs"></i>
+                    <span class="text-xs">projects.json</span>
+                </div>
+                <!-- Tab: package.json -->
+                <div id="tab-skills" onclick="openTab('skills')" class="tab-inactive min-w-[120px] px-3 flex items-center gap-2 cursor-pointer border-r border-[var(--border-color)] transition-colors">
+                    <i class="fab fa-npm text-red-500 text-xs"></i>
+                    <span class="text-xs">package.json</span>
+                </div>
+            </div>
+
+            <!-- Breadcrumbs -->
+            <div class="h-6 flex items-center px-4 text-xs gap-1 text-[var(--fg-secondary)] bg-[var(--bg-body)] border-b border-[var(--border-color)] select-none">
+                <span>src</span> <i class="fas fa-chevron-right text-[8px]"></i>
+                <span>pages</span> <i class="fas fa-chevron-right text-[8px]"></i>
+                <span id="breadcrumb-filename" class="text-[var(--fg-primary)]">Home.tsx</span>
+            </div>
+
+            <!-- Code/Content Area -->
+            <div class="flex-1 overflow-y-auto relative font-code text-sm z-10">
+                <!-- Line Numbers -->
+                <div class="absolute left-0 top-0 bottom-0 w-12 text-right pr-3 pt-4 text-[var(--fg-secondary)] opacity-50 select-none bg-[var(--bg-body)] z-10 hidden md:block border-r border-[var(--border-color)] h-full" style="line-height: 1.5rem;">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25
+                </div>
+
+                <!-- Content: Home.tsx -->
+                <div id="content-home" class="p-4 md:pl-16 pt-4 pb-20 leading-6 min-h-full block animate-fade-in">
+                    <span class="text-keyword">import</span> React <span class="text-keyword">from</span> <span class="text-string">'react'</span>;<br>
+                    <span class="text-keyword">import</span> { <span class="text-class">Developer</span>, <span class="text-class">Opportunity</span> } <span class="text-keyword">from</span> <span class="text-string">'./universe'</span>;<br><br>
+                    
+                    <span class="text-keyword">const</span> <span class="text-func">Portfolio</span> = () => {<br>
+                    &nbsp;&nbsp;<span class="text-keyword">const</span> me = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;name: <span class="text-string">"CHHEM BUNHENG"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;role: <span class="text-string">"Full-Stack Engineer"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;stack: [<span class="text-string">"Laravel"</span>, <span class="text-string">"Django"</span>, <span class="text-string">"Next.js"</span>],<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;location: <span class="text-string">"Phnom Penh, Cambodia"</span><br>
+                    &nbsp;&nbsp;};<br><br>
+                    
+                    &nbsp;&nbsp;<span class="text-keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-func">&lt;div</span> <span class="text-keyword">className</span>=<span class="text-string">"hero-container"</span><span class="text-func">&gt;</span><br>
+                    
+                    <div class="ml-6 md:ml-8 my-4 p-6 border border-[var(--border-color)] rounded bg-[var(--bg-sidebar)] max-w-2xl shadow-lg transition-transform hover:translate-x-1 duration-300">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[var(--accent)]">
+                             Hello, I'm <br><span class="text-[var(--fg-primary)]">CHHEM BUNHENG</span>
+                        </h1>
+                        <p class="mb-6 text-[var(--fg-secondary)] text-lg">
+                            Building scalable education & HR platforms with standard-compliant code.
+                        </p>
+                        <div class="flex gap-4">
+                            <button onclick="openTab('projects')" class="bg-[var(--accent)] text-white px-4 py-2 rounded font-sans text-xs font-bold hover:brightness-110 transition-all transform hover:scale-105">
+                                View Projects
+                            </button>
+                            <button onclick="openTab('contact')" class="border border-[var(--border-color)] px-4 py-2 rounded font-sans text-xs font-bold hover:bg-white/5 transition-all">
+                                Contact Me
+                            </button>
+                            <a href="https://drive.google.com/file/d/1FXrwYorL587Gwb0UEvYr-Lxr02yqaSGc/view?usp=drive_link" target="_blank" class="border border-[var(--border-color)] px-4 py-2 rounded font-sans text-xs font-bold hover:bg-white/5 transition-all">
+                                <i class="fas fa-download mr-2"></i>CV
+                            </a>
+                        </div>
+                    </div>
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-func">&lt;/div&gt;</span><br>
+                    &nbsp;&nbsp;);<br>
+                    };<br><br>
+                    <span class="text-keyword">export default</span> <span class="text-func">Portfolio</span>;
+                </div>
+
+                <!-- Content: README.md (About) -->
+                <div id="content-about" class="hidden p-4 md:pl-16 pt-4 pb-20 leading-relaxed font-sans max-w-3xl animate-fade-in">
+                    <h1 class="text-3xl font-bold mb-4 border-b border-[var(--border-color)] pb-2 text-[var(--fg-primary)]"># About Me</h1>
+                    <p class="mb-4 text-[var(--fg-primary)]">
+                        Full-stack developer with <strong>3+ years</strong> of experience building robust backend systems for educational institutions and HR departments.
+                    </p>
+                    
+                    <h2 class="text-xl font-bold mt-8 mb-2 text-[var(--accent)]">## Experience</h2>
+                    <ul class="list-disc pl-5 space-y-4 marker:text-[var(--accent)] text-[var(--fg-primary)]">
+                        <li class="hover:bg-white/5 p-2 rounded transition-colors">
+                            <strong>Software Developer @ WINTECH Co., Ltd</strong> (2023 - Present) <br>
+                            <span class="text-[var(--fg-secondary)] text-sm">Lead backend engineer for university management modules (Enrollment, Grades, Finance). Migrated legacy systems to Laravel/PostgreSQL.</span>
+                        </li>
+                        <li class="hover:bg-white/5 p-2 rounded transition-colors">
+                            <strong>Intern Developer @ 855 Solutions</strong> (2023) <br>
+                            <span class="text-[var(--fg-secondary)] text-sm">Assisted in API development and bug fixing for enterprise Laravel applications.</span>
+                        </li>
+                    </ul>
+
+                    <h2 class="text-xl font-bold mt-8 mb-2 text-[var(--accent)]">## Education</h2>
+                    <ul class="list-disc pl-5 marker:text-[var(--accent)] text-[var(--fg-primary)]">
+                         <li class="p-2"><strong>Bachelor of Software Engineering</strong> - BELTEI Intl University (Year 4)</li>
+                    </ul>
+
+                     <h2 class="text-xl font-bold mt-8 mb-2 text-[var(--accent)]">## Fun Facts</h2>
+                     <blockquote class="border-l-4 border-[var(--accent)] pl-4 italic text-[var(--fg-secondary)] my-4">
+                        "Code is like humor. When you have to explain it, it’s bad."
+                     </blockquote>
+                     <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="h-40 rounde flex items-center justify-center border border-[var(--border-color)] hover:border-[var(--accent)] transition-colors">
+                             <iframe src="https://www.tiktok.com/embed/v2/7305783757137546498" 
+                             class="w-full h-full border-0 rounded" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                         <div class="h-40 rounded flex items-center justify-center border border-[var(--border-color)] hover:border-[var(--accent)] transition-colors">
+                             <iframe src="https://www.tiktok.com/embed/v2/7430250322095852801" 
+                             class="w-full h-full border-0 rounded" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Content: projects.json -->
+                <div id="content-projects" class="hidden p-4 md:pl-16 pt-4 pb-20 leading-6 min-h-full animate-fade-in">
+                    <span class="text-[var(--fg-primary)]">[</span><br>
+                    
+                    <!-- Project 1 -->
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"id"</span>: <span class="text-class">1</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"name"</span>: <span class="text-string">"University Management System"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"client"</span>: <span class="text-string">"BELTEI International University"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"stack"</span>: [<span class="text-string">"Laravel"</span>, <span class="text-string">"MySQL"</span>, <span class="text-string">"AJAX"</span>],<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"description"</span>: <span class="text-string">"Comprehensive dashboard for student enrollment, grade management, and financial reporting."</span><br>
+                     &nbsp;&nbsp;},<br>
+
+                    <!-- Project 2 -->
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"id"</span>: <span class="text-class">2</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"name"</span>: <span class="text-string">"HR & Payroll Suite"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"status"</span>: <span class="text-string">"In Development"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"stack"</span>: [<span class="text-string">"Django"</span>, <span class="text-string">"PostgreSQL"</span>, <span class="text-string">"REST API"</span>],<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"features"</span>: <span class="text-string">"Automated attendance tracking, leave requests, and complex payroll synthesis."</span><br>
+                     &nbsp;&nbsp;},<br>
+
+                     <!-- Project 3 -->
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"id"</span>: <span class="text-class">3</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"name"</span>: <span class="text-string">"Multi-Campus School Portal"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"stack"</span>: [<span class="text-string">"CodeIgniter"</span>, <span class="text-string">"jQuery"</span>],<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-string">"description"</span>: <span class="text-string">"Portal serving thousands of students across multiple campuses with centralized data management."</span><br>
+                     &nbsp;&nbsp;}<br>
+                    <span class="text-[var(--fg-primary)]">]</span>
+                </div>
+
+                <!-- Content: package.json (Skills) -->
+                <div id="content-skills" class="hidden p-4 md:pl-16 pt-4 pb-20 leading-6 min-h-full animate-fade-in">
+                    {<br>
+                    &nbsp;&nbsp;<span class="text-string">"name"</span>: <span class="text-string">"chhem-bunheng-skills"</span>,<br>
+                    &nbsp;&nbsp;<span class="text-string">"version"</span>: <span class="text-string">"3.5.0"</span>,<br>
+                    &nbsp;&nbsp;<span class="text-string">"dependencies"</span>: {<br>
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-comment">// Backend Core</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"laravel/framework"</span>: <span class="text-string">"^10.0"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"django/core"</span>: <span class="text-string">"^4.2"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"codeigniter/frawework"</span>: <span class="text-string">"^4.0"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"node"</span>: <span class="text-string">"^18.0"</span>,<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-comment">// Frontend</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"next"</span>: <span class="text-string">"^13.4"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"react"</span>: <span class="text-string">"^18.2"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"tailwindcss"</span>: <span class="text-string">"^3.3"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"jquery"</span>: <span class="text-string">"^3.7"</span>,<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-comment">// Database</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"mysql"</span>: <span class="text-string">"expert"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"postgresql"</span>: <span class="text-string">"advanced"</span>,<br><br>
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-comment">// Tools</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"docker"</span>: <span class="text-string">"containerized"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"git"</span>: <span class="text-string">"version-controlled"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-keyword">"postman"</span>: <span class="text-string">"tested"</span><br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+
+                <!-- Content: .env & contact.sql -->
+                 <div id="content-env" class="hidden p-4 md:pl-16 pt-4 pb-20 leading-6 min-h-full animate-fade-in">
+                    <span class="text-comment"># Contact Configuration</span><br>
+                    EMAIL=<span class="text-string">chhembunheng77@gmail.com</span><br>
+                    PHONE=<span class="text-string">+855 16 467 236</span><br>
+                    LOCATION=<span class="text-string">Phnom_Penh</span><br><br>
+                    <span class="text-comment"># Social Links</span><br>
+                    GITHUB=<span class="text-string">https://github.com/chhembunheng</span><br>
+                    LINKEDIN=<span class="text-string">https://www.linkedin.com/in/chhem-bunheng</span><br>
+                    TELEGRAM=<span class="text-string">@henggdev_04</span>
+                </div>
+
+                 <div id="content-contact" class="hidden p-4 md:pl-16 pt-4 pb-20 leading-6 min-h-full animate-fade-in">
+                    <span class="text-keyword">INSERT INTO</span> <span class="text-class">messages</span> (name, email, body) <br>
+                    <span class="text-keyword">VALUES</span> (<br>
+                    
+                    <div class="my-4 max-w-lg border border-[var(--border-color)] p-4 bg-[var(--bg-sidebar)] shadow-lg hover:shadow-xl transition-shadow">
+                        <form action="#" onsubmit="event.preventDefault(); alert('Query Executed Successfully! (Message Sent)');">
+                            <div class="mb-2">
+                                <label class="block text-[var(--fg-secondary)] text-xs mb-1">name (VARCHAR)</label>
+                                <input required type="text" class="w-full bg-[var(--bg-body)] border border-[var(--border-color)] px-2 py-1 text-[var(--fg-primary)] focus:border-[var(--accent)] outline-none transition-colors">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-[var(--fg-secondary)] text-xs mb-1">email (VARCHAR)</label>
+                                <input required type="email" class="w-full bg-[var(--bg-body)] border border-[var(--border-color)] px-2 py-1 text-[var(--fg-primary)] focus:border-[var(--accent)] outline-none transition-colors">
+                            </div>
+                             <div class="mb-4">
+                                <label class="block text-[var(--fg-secondary)] text-xs mb-1">body (TEXT)</label>
+                                <textarea required rows="3" class="w-full bg-[var(--bg-body)] border border-[var(--border-color)] px-2 py-1 text-[var(--fg-primary)] focus:border-[var(--accent)] outline-none transition-colors"></textarea>
+                            </div>
+                            <button class="bg-[var(--comment)] text-white px-4 py-1 text-xs hover:opacity-80 transition-opacity flex items-center">
+                                <i class="fas fa-play mr-2 text-[10px]"></i> EXECUTE
+                            </button>
+                        </form>
+                    </div>
+
+                    );
+                </div>
+
+            </div>
+
+             <!-- Terminal (Bottom Panel) -->
+            <div class="h-40 border-t border-[var(--border-color)] bg-[var(--bg-sidebar)] flex flex-col hidden md:flex font-code text-xs z-10 relative">
+                <div class="flex px-4 py-1 gap-6 border-b border-[var(--border-color)] text-[var(--fg-secondary)] uppercase tracking-wider select-none">
+                    <span class="text-[var(--fg-primary)] border-b border-[var(--fg-primary)] cursor-pointer">Terminal</span>
+                    <span class="hover:text-[var(--fg-primary)] cursor-pointer">Output</span>
+                    <span class="hover:text-[var(--fg-primary)] cursor-pointer">Problems</span>
+                    <span class="hover:text-[var(--fg-primary)] cursor-pointer">Debug Console</span>
+                </div>
+                <div class="flex-1 p-3 overflow-y-auto font-mono text-[var(--fg-primary)] scroll-smooth" id="terminal-content">
+                    <div class="mb-2">
+                         <span class="text-green-500">➜</span> <span class="text-blue-400">~/portfolio</span> <span class="text-yellow-400">git status</span><br>
+                         On branch master<br>
+                         Your branch is up to date with 'origin/master'.<br><br>
+                         <span class="text-green-500">➜</span> <span class="text-blue-400">~/portfolio</span> <span class="text-yellow-400">npm run start</span><br>
+                         > portfolio@1.0.0 start<br>
+                         > next start<br><br>
+                         ready - started server on 0.0.0.0:3000, url: http://localhost:3000<br>
+                         info  - Loaded env from .env
+                    </div>
+                    <div class="flex items-center">
+                         <span class="text-green-500 mr-2">➜</span> <span class="text-blue-400 mr-2">~/portfolio</span>
+                         <input type="text" class="bg-transparent outline-none flex-1 text-[var(--fg-primary)]" placeholder="Try 'help' or 'theme'..." onkeydown="handleCommand(event)">
+                         <span class="w-2 h-4 bg-[var(--fg-secondary)] animate-[blink_1s_infinite] ml-1"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer (Status Bar) -->
+            <footer class="h-6 bg-[var(--accent)] flex items-center justify-between px-3 text-xs text-white select-none relative z-50 transition-colors">
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/chhembunheng/portfolio" target="_blank" class="hover:bg-white/20 px-1 rounded"><i class="fas fa-code-branch text-[10px] mr-1"></i> master*</a>
+                    <span class="hover:bg-white/20 px-1 rounded"><i class="far fa-times-circle text-[10px] mr-1"></i> 0</span>
+                    <span class="hover:bg-white/20 px-1 rounded"><i class="fas fa-exclamation-triangle text-[10px] mr-1"></i> 0</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="hover:bg-white/20 px-1 rounded md:block hidden">Ln 14, Col 32</span>
+                    <span class="hover:bg-white/20 px-1 rounded md:block hidden">UTF-8</span>
+                    <span class="hover:bg-white/20 px-1 rounded md:block hidden">JavaScript React</span>
+                    <span onclick="toggleThemes()" class="hover:bg-white/20 px-1 rounded cursor-pointer"><i class="fas fa-bell mr-1"></i>Themes</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Theme Picker Modal -->
+    <div id="theme-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-200" onclick="toggleThemes()">
+        <div class="bg-[var(--bg-sidebar)] border border-[var(--border-color)] w-96 shadow-2xl rounded text-sm group transform scale-95 transition-transform duration-200" onclick="event.stopPropagation()">
+            <div class="p-2 border-b border-[var(--border-color)] text-[var(--fg-secondary)] text-center">Select Color Theme</div>
+            <div onclick="setTheme('')" class="p-2 px-4 hover:bg-[var(--accent)] hover:text-white cursor-pointer flex justify-between transition-colors">
+                <span>Dark+ (Default VS Code)</span>
+                <span class="opacity-50">Default</span>
+            </div>
+            <div onclick="setTheme('theme-dracula')" class="p-2 px-4 hover:bg-[var(--accent)] hover:text-white cursor-pointer flex justify-between transition-colors">
+                <span>Dracula</span>
+                <span class="opacity-50">Contributor</span>
+            </div>
+            <div onclick="setTheme('theme-light')" class="p-2 px-4 hover:bg-[var(--accent)] hover:text-white cursor-pointer flex justify-between transition-colors">
+                <span>GitHub Light</span>
+                <span class="opacity-50">Flashbang</span>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Tab System
+    const tabs = ['home', 'about', 'projects', 'skills', 'env', 'contact'];
+    
+    function openTab(id) {
+        // Toggle Contents
+        document.querySelectorAll('[id^="content-"]').forEach(el => {
+            el.classList.add('hidden');
+            el.classList.remove('animate-fade-in');
+        });
+        const content = document.getElementById(`content-${id}`);
+        content.classList.remove('hidden');
+        
+        // Trigger reflow for animation restart
+        void content.offsetWidth;
+        content.classList.add('animate-fade-in');
+        
+        // Toggle Tabs
+        document.querySelectorAll('[id^="tab-"]').forEach(el => {
+            el.classList.remove('tab-active');
+            el.classList.add('tab-inactive');
+            el.querySelector('.fas.fa-times')?.classList.add('hidden'); // Hide close button
+        });
+
+        // Activate specific tab (if exists in top bar)
+        const activeTab = document.getElementById(`tab-${id}`);
+        if(activeTab) {
+            activeTab.classList.remove('tab-inactive');
+            activeTab.classList.add('tab-active');
+        }
+
+        // Update Breadcrumb
+        const filename = {
+            'home': 'Home.tsx',
+            'about': 'README.md',
+            'projects': 'projects.json',
+            'skills': 'package.json',
+            'env': '.env',
+            'contact': 'contact.sql'
+        }[id];
+        document.getElementById('breadcrumb-filename').innerText = filename;
+    }
+
+    // Folders in sidebar
+    function toggleTree(id) {
+        const el = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id) || event.currentTarget.querySelector('.fa-chevron-down, .fa-chevron-right');
+        
+        if (el.classList.contains('hidden')) {
+            el.classList.remove('hidden');
+            // Animate height? For now simple toggle
+            if(icon) {
+                 icon.style.transform = 'rotate(0deg)';
+                 icon.classList.replace('fa-chevron-right', 'fa-chevron-down');
+            }
+        } else {
+            el.classList.add('hidden');
+            if(icon) {
+                icon.style.transform = 'rotate(-90deg)';
+                setTimeout(() => icon.classList.replace('fa-chevron-down', 'fa-chevron-right'), 100);
+            }
+        }
+    }
+
+    // Themes
+    function toggleThemes() {
+        const modal = document.getElementById('theme-modal');
+        const content = modal.firstElementChild;
+        
+        if (modal.classList.contains('hidden')) {
+            modal.classList.remove('hidden');
+            // Allow display:block to apply then animate
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+        } else {
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+    }
+
+    function setTheme(themeName) {
+        document.body.className = "h-screen w-screen overflow-hidden flex flex-col text-sm " + themeName;
+        setTimeout(toggleThemes, 100);
+    }
+
+    document.getElementById('settings-btn').addEventListener('click', toggleThemes);
+
+    // Terminal Commands
+    function handleCommand(e) {
+        if (e.key === 'Enter') {
+            const cmd = e.target.value.trim().toLowerCase();
+            const outputDiv = document.getElementById('terminal-content');
+            
+            // Create Line from user
+            const userLine = document.createElement('div');
+            userLine.innerHTML = `<span class="text-green-500 mr-2">➜</span> <span class="text-blue-400 mr-2">~/portfolio</span> ${e.target.value}`;
+            outputDiv.insertBefore(userLine, outputDiv.lastElementChild); // Insert before input line
+
+            // Response
+            let responseText = "";
+            if(cmd === 'help') responseText = "Available commands: help, clear, theme, projects, contact, whoami";
+            else if(cmd === 'clear') { 
+                // Clear all previous siblings but keep the intro? No, clear all except input
+                const children = Array.from(outputDiv.children);
+                children.forEach(child => {
+                    if (child !== outputDiv.lastElementChild) child.remove(); 
+                });
+                e.target.value = '';
+                return;
+            }
+            else if(cmd === 'whoami') responseText = "root user: CHHEM BUNHENG (Full-Stack Developer)";
+            else if(cmd === 'theme') { toggleThemes(); responseText = "Opening theme selector..."; }
+            else if(cmd === 'projects') { openTab('projects'); responseText = "Navigating to projects.json..."; }
+            else if(cmd === 'contact') { openTab('contact'); responseText = "Opening SQL connection..."; }
+            else if(cmd !== '') responseText = `Command not found: ${cmd}. Try 'help'.`;
+
+            if(responseText) {
+                const respLine = document.createElement('div');
+                respLine.className = "text-gray-400 mb-2";
+                respLine.innerText = responseText;
+                outputDiv.insertBefore(respLine, outputDiv.lastElementChild);
+            }
+
+            e.target.value = '';
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        }
+    }
+
+    // Fullscreen
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+    
+    /* 
+       Minimal Lightweight Particle System (Canvas) 
+       This replaces Three.js for a simpler, faster network effect
+    */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.5; // low speed
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.size = Math.random() * 2;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            
+            // Bounce screen
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        draw() {
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--line-tree').trim();
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    function initParticles() {
+        const count = Math.min(window.innerWidth / 15, 100); // Responsive count
+        particles = [];
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+        }
+    }
+    
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Get line color from theme variable
+        const style = getComputedStyle(document.body);
+        const lineColor = style.getPropertyValue('--line-tree').trim();
+        ctx.strokeStyle = lineColor;
+        ctx.lineWidth = 0.5;
+        
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+            
+            // Connect nearby
+            for (let j = i; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100) {
+                    ctx.beginPath();
+                    ctx.globalAlpha = 1 - (distance / 100); // fade out
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            }
+        }
+        requestAnimationFrame(animateParticles);
+    }
+    
+    // Low-power mode check
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+       initParticles();
+       animateParticles();
+    }
+    
+    console.log("System Status: Online. Rendering: 2D Canvas.");
+</script>
+</body>
+</html>
