@@ -1,80 +1,44 @@
 <template>
-  <!-- Particle Background -->
-  <ParticleCanvas />
+  <div class="app-wrapper">
+    <ThreeBackground />
+    <NavBar />
 
-  <!-- Background Ambience -->
-  <div class="grid-bg fixed-bg"></div>
-  <div class="glow-top"></div>
-  <div class="glow-bottom"></div>
+    <main class="main-content">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </main>
 
-  <!-- Navigation -->
-  <NavBar />
-
-  <!-- Main Content -->
-  <main class="main-wrap">
-    <HeroSection />
-    <ProjectsSection />
-    <SkillsSection />
-    <ExperienceSection />
-    <HobbiesSection />
-    <ContactSection />
-  </main>
-
-  <!-- Footer -->
-  <FooterSection />
+    <FooterSection />
+  </div>
 </template>
 
 <script setup>
-import ParticleCanvas from './components/ParticleCanvas.vue'
 import NavBar from './components/NavBar.vue'
-import HeroSection from './components/HeroSection.vue'
-import ProjectsSection from './components/ProjectsSection.vue'
-import SkillsSection from './components/SkillsSection.vue'
-import ExperienceSection from './components/ExperienceSection.vue'
-import HobbiesSection from './components/HobbiesSection.vue'
-import ContactSection from './components/ContactSection.vue'
 import FooterSection from './components/FooterSection.vue'
+import ThreeBackground from './components/ThreeBackground.vue'
 </script>
 
 <style scoped>
-.fixed-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  pointer-events: none;
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.glow-top {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 500px;
-  background: rgba(34, 211, 238, 0.1);
-  filter: blur(120px);
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: -8;
-  transform: translateY(-50%);
+.main-content {
+  flex: 1;
 }
 
-.glow-bottom {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 500px;
-  background: rgba(217, 70, 239, 0.1);
-  filter: blur(120px);
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: -8;
-  transform: translateY(50%);
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
 }
 
-.main-wrap {
-  padding-top: 5rem;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
