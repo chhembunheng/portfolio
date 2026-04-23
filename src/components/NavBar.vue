@@ -1,8 +1,18 @@
 <template>
   <header class="navbar">
     <div class="container nav-inner">
-      <router-link to="/" class="brand" @click="closeMenu">
-        <img src="../assets/logo-cb.png" alt="C.B — Chhem Bunheng" class="brand-logo" />
+      <router-link to="/" class="brand" @click="closeMenu" aria-label="Chhem Bunheng - Home">
+        <svg class="brand-logo" viewBox="0 0 72 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text
+            x="36" y="46"
+            font-family="Cinzel, serif"
+            font-size="44"
+            font-weight="400"
+            fill="var(--accent-gold)"
+            text-anchor="middle"
+            letter-spacing="-2"
+          >CB</text>
+        </svg>
       </router-link>
 
       <!-- Desktop Nav -->
@@ -89,13 +99,11 @@ const closeMenu = () => {
   height: 44px;
   width: auto;
   display: block;
-  border-radius: 2px;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.2));
 }
 
-.brand-logo:hover {
-  opacity: 0.85;
+.brand:hover .brand-logo {
+  opacity: 0.75;
   transform: scale(1.05);
 }
 
