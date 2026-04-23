@@ -6,7 +6,8 @@
   padding: 0;
 }
 
-:root {
+:root,
+html.dark-mode {
   /* Strict Monochrome with Gold Accent */
   --bg-color: #000000;
   --surface-color: #0a0a0a;
@@ -15,9 +16,21 @@
   --text-tertiary: #71717a;
   --border-color: #27272a;
   --accent-gold: #c5a059; /* Sophisticated champagne gold */
-  
+  --nav-bg: transparent;
+
   --font-sans: 'Montserrat', sans-serif;
   --font-serif: 'Cinzel', serif;
+}
+
+html.light-mode {
+  --bg-color: #f8f5f0;
+  --surface-color: #eeece8;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-tertiary: #888888;
+  --border-color: #d4d0c8;
+  --accent-gold: #a07830;
+  --nav-bg: transparent;
 }
 
 html {

@@ -6,11 +6,12 @@
           Chhem Bunheng.
         </h1>
         <h2 class="subtitle h2-serif text-muted">
-          Software Engineer
+          Full Stack Developer
         </h2>
         <p class="description">
-          Specializing in crafting robust, scalable applications. 
-          Bridging the gap between polished frontend experiences and solid backend architectures.
+          Building enterprise-grade systems at Wintech Co., Ltd — from university
+          management platforms and school portals to mobile APIs and reporting engines.
+          Laravel specialist with a passion for clean architecture and scalable solutions.
         </p>
         
         <div class="action-group">

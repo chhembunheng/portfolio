@@ -1,8 +1,10 @@
 <template>
   <header class="navbar">
     <div class="container nav-inner">
-      <router-link to="/" class="brand" @click="closeMenu">C. BUNHENG</router-link>
-      
+      <router-link to="/" class="brand" @click="closeMenu">
+        <img src="../assets/logo-cb.png" alt="C.B — Chhem Bunheng" class="brand-logo" />
+      </router-link>
+
       <!-- Desktop Nav -->
       <nav class="nav-links desktop-only">
         <router-link to="/work" class="nav-link" active-class="active">Work</router-link>
@@ -12,10 +14,17 @@
       </nav>
 
       <!-- Mobile Toggle -->
-      <button class="mobile-toggle mobile-only" @click="menuOpen = !menuOpen" aria-label="Toggle Menu">
-        <span class="line" :class="{ 'open': menuOpen }"></span>
-        <span class="line" :class="{ 'open': menuOpen }"></span>
-      </button>
+      <div class="nav-actions">
+        <button class="theme-toggle" @click="toggleTheme" aria-label="Toggle Theme">
+          <svg v-if="theme === 'dark'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <button class="mobile-toggle mobile-only" @click="menuOpen = !menuOpen" aria-label="Toggle Menu">
+          <span class="line" :class="{ 'open': menuOpen }"></span>
+          <span class="line" :class="{ 'open': menuOpen }"></span>
+        </button>
+      </div>
     </div>
 
     <!-- Mobile Fullscreen Menu -->
@@ -37,8 +46,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useTheme } from '../composables/useTheme'
 
 const menuOpen = ref(false)
+const { theme, toggleTheme } = useTheme()
 
 const closeMenu = () => {
   menuOpen.value = false
@@ -51,10 +62,11 @@ const closeMenu = () => {
   top: 0;
   width: 100%;
   padding: 1.5rem 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   z-index: 1000;
+  transition: background 0.4s ease, padding 0.3s ease, border-color 0.4s ease;
 }
 
 @media (min-width: 768px) {
@@ -68,14 +80,27 @@ const closeMenu = () => {
 }
 
 .brand {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  letter-spacing: 0.05em;
-  z-index: 1001; /* Keep above mobile menu */
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+}
+
+.brand-logo {
+  height: 44px;
+  width: auto;
+  display: block;
+  border-radius: 2px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.2));
+}
+
+.brand-logo:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 @media (min-width: 768px) {
-  .brand { font-size: 1.5rem; }
+  .brand-logo { height: 52px; }
 }
 
 .desktop-only { display: none; }
@@ -105,12 +130,34 @@ const closeMenu = () => {
   color: var(--text-primary);
 }
 
-/* Mobile Toggle */
+/* Mobile Toggle & Actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 1001;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--accent-gold);
+  transform: scale(1.1);
+}
+
 .mobile-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 1001;
   width: 30px;
   height: 20px;
   display: flex;

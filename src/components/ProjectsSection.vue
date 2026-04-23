@@ -26,21 +26,39 @@
 const projects = [
   {
     title: 'University Management System',
-    type: 'Enterprise Architecture',
-    description: 'Comprehensive platform for BELTEI Intl University covering enrollment, grades, attendance, finance, HR, and real-time dashboards.',
-    stack: ['Laravel', 'MySQL', 'Vue.js', 'REST API']
+    type: 'Enterprise Platform · Laravel',
+    description: 'Full-featured UMS for BELTEI International University. Led development of the Scholarship Module, Payment Module, Student Registration, Academic Scoring, and Attendance tracking — serving thousands of students across multiple campuses.',
+    stack: ['Laravel', 'MySQL', 'Vue.js', 'REST API', 'RBAC']
   },
   {
-    title: 'School Portal Modules',
-    type: 'Multi-Tenant System',
-    description: 'Multi-campus management modules for BELTEI & Zion International School. Built with a scalable multi-tenant architecture and granular RBAC.',
-    stack: ['CodeIgniter', 'PostgreSQL', 'RBAC']
+    title: 'Beltei International School Portal',
+    type: 'Multi-Module System · CodeIgniter',
+    description: 'Contributed to a school management portal at BELTEI International School — building reporting modules and implementing features assigned by the Team Lead within a collaborative development team.',
+    stack: ['CodeIgniter', 'MySQL', 'jQuery', 'PHP']
   },
   {
-    title: 'HR Suite & Payroll Engine',
-    type: 'Internal Automation',
-    description: 'Employee tracking, leave management automation, and payroll processing engine with complex role-based access control and detailed audit trails.',
-    stack: ['Django', 'React.js', 'PostgreSQL']
+    title: 'World International School',
+    type: 'Score & Mobile API · Laravel',
+    description: 'Assisted in fixing academic scoring logic and developed RESTful APIs consumed by the school\'s mobile application, ensuring accurate grade data sync between the web system and mobile clients.',
+    stack: ['Laravel', 'REST API', 'MySQL', 'Mobile Integration']
+  },
+  {
+    title: 'Greenfield International School',
+    type: 'Score, Reports & WebView API · Laravel',
+    description: 'Worked on academic score management, PDF report generation, and built a WebView API bridge for the school\'s mobile app — enabling real-time data access from native mobile interfaces.',
+    stack: ['Laravel', 'MySQL', 'WebView API', 'PDF Reports']
+  },
+  {
+    title: 'Hotel Management System',
+    type: 'Project Assignment · Laravel',
+    description: 'Designed and built a full hotel management system as a project assignment — covering room booking, guest management, billing, and availability dashboards with a clean admin interface.',
+    stack: ['Laravel', 'MySQL', 'Blade', 'Bootstrap']
+  },
+  {
+    title: 'Personal Portfolio',
+    type: 'Web App · Vue.js',
+    description: 'This portfolio — a premium, immersive personal website built with Vue 3, Three.js particle animations, dark/light theme, and smooth page transitions to showcase projects and experience.',
+    stack: ['Vue.js 3', 'Three.js', 'Vite', 'CSS3']
   }
 ]
 </script>
