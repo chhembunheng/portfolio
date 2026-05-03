@@ -20,6 +20,7 @@
         <router-link to="/work" class="nav-link" active-class="active">Work</router-link>
         <router-link to="/skills" class="nav-link" active-class="active">Expertise</router-link>
         <router-link to="/experience" class="nav-link" active-class="active">Journey</router-link>
+        <router-link to="/resume" class="nav-link" active-class="active">Resume</router-link>
         <router-link to="/contact" class="nav-link" active-class="active">Contact</router-link>
       </nav>
 
@@ -46,6 +47,7 @@
             <router-link to="/work" class="mobile-link" active-class="active" @click="closeMenu">Work</router-link>
             <router-link to="/skills" class="mobile-link" active-class="active" @click="closeMenu">Expertise</router-link>
             <router-link to="/experience" class="mobile-link" active-class="active" @click="closeMenu">Journey</router-link>
+            <router-link to="/resume" class="mobile-link" active-class="active" @click="closeMenu">Resume</router-link>
             <router-link to="/contact" class="mobile-link" active-class="active" @click="closeMenu">Contact</router-link>
           </nav>
         </div>

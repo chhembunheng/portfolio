@@ -16,6 +16,7 @@
         
         <div class="action-group">
           <router-link to="/work" class="btn-outline">View Projects</router-link>
+          <router-link to="/resume" class="btn-outline btn-quiet">View Resume</router-link>
         </div>
       </div>
     </div>
@@ -69,6 +70,18 @@
 
 .action-group {
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
+}
+
+.btn-quiet {
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.btn-quiet:hover {
+  border-color: var(--accent-gold);
+  color: var(--bg-color);
 }
 </style>

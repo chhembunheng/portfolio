@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { startRouteProgress, finishRouteProgress } from '../composables/useRouteProgress'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,11 @@ const router = createRouter({
       component: () => import('../views/ExperienceView.vue')
     },
     {
+      path: '/resume',
+      name: 'resume',
+      component: () => import('../views/ResumeView.vue')
+    },
+    {
       path: '/contact',
       name: 'contact',
       component: () => import('../views/ContactView.vue')
@@ -37,6 +43,20 @@ const router = createRouter({
       return { top: 0 }
     }
   }
+})
+
+router.beforeEach((to, from) => {
+  if (to.fullPath !== from.fullPath) {
+    startRouteProgress()
+  }
+})
+
+router.afterEach(() => {
+  finishRouteProgress()
+})
+
+router.onError(() => {
+  finishRouteProgress()
 })
 
 export default router
